@@ -22,3 +22,13 @@ export const getId = (item) =>
 export const getDisplayName = (item) =>
   item.nome || item.empresa || item.descricao || item.especialidade ||
   item.procedimento || item.nome_completo || item.profissional || `Item ${getId(item)}`;
+
+export const getUnitId = (unit) => unit.unidade_id ?? unit.id ?? unit.local_id;
+export const getUnitName = (unit) => unit.nome_fantasia || unit.nome || unit.empresa || `Unidade ${getUnitId(unit)}`;
+export const getUnitOnline = (unit) => Number(unit.ExibirAgendamentoOnline) === 1;
+export const getFullAddress = (unit) => {
+  const street = unit.endereco || [unit.logradouro, unit.numero].filter(Boolean).join(", ");
+  const cityState = [unit.cidade, unit.estado].filter(Boolean).join(" - ");
+  const parts = [street, unit.complemento, unit.bairro, cityState, unit.cep];
+  return parts.filter(Boolean).join(", ");
+};

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Building2 } from "lucide-react";
-import { agendamentoApi, getId, getDisplayName } from "@/lib/agendamentoApi";
+import { agendamentoApi, getUnitId, getUnitName, getUnitOnline, getFullAddress } from "@/lib/agendamentoApi";
 import OptionCard from "./OptionCard";
 import LoadingState from "./LoadingState";
 
@@ -11,8 +11,10 @@ export default function StepUnidade({ formData, updateFormData, onNext }) {
   useEffect(() => {
     agendamentoApi.getUnidades()
       .then((data) => {
-        const content = data.success && Array.isArray(data.content) ? data.content : [];
-        setUnidades(content);
+        const groups = data.success && data.content && typeof data.content === "object" ? data.content : {};
+        const allUnits = Object.values(groups).flatMap((arr) => (Array.isArray(arr) ? arr : []));
+        const online = allUnits.filter(getUnitOnline);
+        setUnidades(online);
         setLoading(false);
       })
       .catch(() => { setLoading(false); });
@@ -43,15 +45,15 @@ export default function StepUnidade({ formData, updateFormData, onNext }) {
         ) : (
           unidades.map((unidade) => (
             <OptionCard
-              key={getId(unidade)}
-              selected={formData.unidade_id === getId(unidade)}
+              key={getUnitId(unidade)}
+              selected={formData.unidade_id === getUnitId(unidade)}
               onClick={() => {
-                updateFormData({ unidade_id: getId(unidade), unidade_nome: getDisplayName(unidade) });
+                updateFormData({ unidade_id: getUnitId(unidade), unidade_nome: getUnitName(unidade) });
                 onNext();
               }}
               icon={Building2}
-              title={getDisplayName(unidade)}
-              subtitle={unidade.endereco || unidade.logradouro || unidade.bairro}
+              title={getUnitName(unidade)}
+              subtitle={getFullAddress(unidade)}
             />
           ))
         )}

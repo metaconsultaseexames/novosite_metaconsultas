@@ -15,7 +15,7 @@ Deno.serve(async (req) => {
 
     switch (action) {
       case 'unidades': {
-        const res = await fetch(FEEGOW_BASE + "company/list-units", { headers: feegowHeaders });
+        const res = await fetch(FEEGOW_BASE + "company/list-unity", { headers: feegowHeaders });
         const data = await res.json();
         return Response.json(data);
       }
