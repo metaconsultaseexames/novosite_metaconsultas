@@ -43,10 +43,7 @@ export default function Navbar() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-24">
             <Link to="/" className="flex-shrink-0 py-1">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#46BEE6]/15 to-[#735AAA]/15 rounded-2xl blur-md" />
-                <img src={LOGO_URL} alt="Clínica Meta" className="relative h-[72px] w-auto" />
-              </div>
+              <img src={LOGO_URL} alt="Clínica Meta" className="h-[72px] w-auto" />
             </Link>
 
             <div className="hidden lg:flex items-center gap-1">
