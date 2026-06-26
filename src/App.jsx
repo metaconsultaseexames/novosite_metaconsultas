@@ -14,6 +14,7 @@ import QuemSomos from './pages/QuemSomos';
 import Blog from './pages/Blog';
 import BlogPostPage from './pages/BlogPost';
 import Faq from './pages/Faq';
+import Agendamento from './pages/Agendamento';
 import SiteLayout from './components/layout/SiteLayout';
 
 const AuthenticatedApp = () => {
@@ -51,6 +52,7 @@ const AuthenticatedApp = () => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/faq" element={<Faq />} />
+        <Route path="/agendamento" element={<Agendamento />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

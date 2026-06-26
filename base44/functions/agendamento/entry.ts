@@ -1,13 +1,7 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-
 const FEEGOW_BASE = "https://api.feegow.com/v1/api/";
 
 Deno.serve(async (req) => {
   try {
-    const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
-    if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
-
     const body = await req.json();
     const { action } = body;
 
@@ -21,17 +15,13 @@ Deno.serve(async (req) => {
 
     switch (action) {
       case 'unidades': {
-        const res = await fetch(FEEGOW_BASE + "company/list", {
-          headers: { 'x-access-token': feegowToken }
-        });
+        const res = await fetch(FEEGOW_BASE + "company/list-units", { headers: feegowHeaders });
         const data = await res.json();
         return Response.json(data);
       }
 
       case 'especialidades': {
-        const res = await fetch(FEEGOW_BASE + "specialties/list", {
-          headers: { 'x-access-token': feegowToken }
-        });
+        const res = await fetch(FEEGOW_BASE + "specialties/list", { headers: feegowHeaders });
         const data = await res.json();
         return Response.json(data);
       }
@@ -40,17 +30,22 @@ Deno.serve(async (req) => {
         const params = new URLSearchParams();
         if (body.especialidade_id) params.set('especialidade_id', body.especialidade_id);
         const url = FEEGOW_BASE + "procedures/list" + (params.toString() ? "?" + params.toString() : "");
-        const res = await fetch(url, {
-          headers: { 'x-access-token': feegowToken }
-        });
+        const res = await fetch(url, { headers: feegowHeaders });
+        const data = await res.json();
+        return Response.json(data);
+      }
+
+      case 'profissionais': {
+        const params = new URLSearchParams();
+        if (body.especialidade_id) params.set('especialidade_id', body.especialidade_id);
+        const url = FEEGOW_BASE + "professional/list" + (params.toString() ? "?" + params.toString() : "");
+        const res = await fetch(url, { headers: feegowHeaders });
         const data = await res.json();
         return Response.json(data);
       }
 
       case 'origens': {
-        const res = await fetch(FEEGOW_BASE + "patient/origins", {
-          headers: { 'x-access-token': feegowToken }
-        });
+        const res = await fetch(FEEGOW_BASE + "patient/list-origins", { headers: feegowHeaders });
         const data = await res.json();
         return Response.json(data);
       }
@@ -59,9 +54,7 @@ Deno.serve(async (req) => {
         const params = new URLSearchParams();
         if (body.cpf) params.set('cpf', body.cpf);
         const url = FEEGOW_BASE + "patient/list" + (params.toString() ? "?" + params.toString() : "");
-        const res = await fetch(url, {
-          headers: { 'x-access-token': feegowToken }
-        });
+        const res = await fetch(url, { headers: feegowHeaders });
         const data = await res.json();
         return Response.json(data);
       }
@@ -88,22 +81,21 @@ Deno.serve(async (req) => {
 
       case 'disponibilidade': {
         const params = new URLSearchParams();
-        if (body.unidade_id) params.set('unidade_id', body.unidade_id);
+        if (body.tipo) params.set('tipo', body.tipo);
+        if (body.unidade_id !== undefined && body.unidade_id !== null) params.set('unidade_id', body.unidade_id);
         if (body.especialidade_id) params.set('especialidade_id', body.especialidade_id);
         if (body.procedimento_id) params.set('procedimento_id', body.procedimento_id);
         if (body.profissional_id) params.set('profissional_id', body.profissional_id);
-        if (body.data_inicio) params.set('data_inicio', body.data_inicio);
-        if (body.data_fim) params.set('data_fim', body.data_fim);
-        const url = FEEGOW_BASE + "appoints/available-times?" + params.toString();
-        const res = await fetch(url, {
-          headers: { 'x-access-token': feegowToken }
-        });
+        if (body.data_start) params.set('data_start', body.data_start);
+        if (body.data_end) params.set('data_end', body.data_end);
+        const url = FEEGOW_BASE + "appoints/available-schedule?" + params.toString();
+        const res = await fetch(url, { headers: feegowHeaders });
         const data = await res.json();
         return Response.json(data);
       }
 
       case 'criarAgendamento': {
-        const res = await fetch(FEEGOW_BASE + "appoints/save", {
+        const res = await fetch(FEEGOW_BASE + "appoints/new-appoint", {
           method: 'POST',
           headers: feegowHeaders,
           body: JSON.stringify(body.agendamento)
