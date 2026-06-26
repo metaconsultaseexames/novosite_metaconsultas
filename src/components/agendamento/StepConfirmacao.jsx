@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Loader2, Calendar, Clock, MapPin, Stethoscope, User, ClipboardList, CalendarPlus } from "lucide-react";
+import { CheckCircle2, Loader2, Calendar, Clock, MapPin, Stethoscope, User, ClipboardList, CalendarPlus, ShieldCheck } from "lucide-react";
 import { agendamentoApi } from "@/lib/agendamentoApi";
 
 const formatBRDate = (dateStr) => {
@@ -29,6 +29,11 @@ export default function StepConfirmacao({ formData, onReset }) {
   const handleConfirm = async () => {
     setStatus("loading");
     setError(null);
+    if (!formData.paciente?.id) {
+      setError("Dados do paciente não validados. Volte e valide seu CPF antes de confirmar.");
+      setStatus("error");
+      return;
+    }
     try {
       const payload = {
         paciente_id: formData.paciente?.id,
@@ -95,6 +100,10 @@ export default function StepConfirmacao({ formData, onReset }) {
       </div>
 
       <div className="max-w-md mx-auto bg-[#F9FBFF] rounded-2xl p-5 mb-6">
+        <div className="flex items-center gap-2 mb-3 pb-3 border-b border-[#735AAA]/10">
+          <ShieldCheck className="w-4 h-4 text-green-500" />
+          <span className="text-sm font-medium text-green-600">Paciente validado via Receita Federal</span>
+        </div>
         <SummaryRow icon={MapPin} label="Unidade" value={formData.unidade_nome} />
         <SummaryRow icon={Stethoscope} label="Especialidade" value={formData.especialidade_nome} />
         <SummaryRow icon={ClipboardList} label="Procedimento" value={formData.procedimento_nome} />

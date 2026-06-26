@@ -41,15 +41,18 @@ export default function StepPaciente({ formData, updateFormData, onNext }) {
 
     setVerifying(true);
     try {
-      const cpfResult = await agendamentoApi.consultarCpf(cleanCpf, birthdate);
-      if (cpfResult.code !== "000") {
+      const birthdateParts = birthdate.split("-");
+      const birthdateBR = birthdateParts.length === 3
+        ? `${birthdateParts[2]}/${birthdateParts[1]}/${birthdateParts[0]}`
+        : birthdate;
+      const cpfResult = await agendamentoApi.consultarCpf(cleanCpf, birthdateBR);
+      if (Number(cpfResult.code) !== 0) {
         const msg = (cpfResult.errors && cpfResult.errors[0]) || cpfResult.code_message || "Não foi possível validar o CPF. Verifique os dados e tente novamente.";
         setError(msg);
         setVerifying(false);
         return;
       }
       const rfData = (cpfResult.data && cpfResult.data[0]) || {};
-      const endereco = rfData.endereco || {};
       setInfosimplesData(rfData);
 
       const patientResult = await agendamentoApi.buscarPaciente(cleanCpf);
@@ -61,19 +64,19 @@ export default function StepPaciente({ formData, updateFormData, onNext }) {
         setPatientForm({
           nome_completo: rfData.nome || "",
           cpf: cleanCpf,
-          data_nascimento: birthdate,
+          data_nascimento: parseInfoSimplesDate(rfData.data_nascimento) || birthdate,
           genero: rfData.genero === "MASCULINO" ? "M" : rfData.genero === "FEMININO" ? "F" : "",
           nome_mae: rfData.nome_mae || "",
           telefone: "",
           celular: "",
           email: "",
-          cep: endereco.cep || "",
-          cidade: endereco.cidade || "",
-          estado: endereco.estado || "",
-          endereco: endereco.logradouro || endereco.endereco || "",
-          numero: endereco.numero || "",
-          complemento: endereco.complemento || "",
-          bairro: endereco.bairro || "",
+          cep: "",
+          cidade: "",
+          estado: "",
+          endereco: "",
+          numero: "",
+          complemento: "",
+          bairro: "",
         });
         setFormMode("create");
       }
