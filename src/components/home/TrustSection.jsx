@@ -5,10 +5,10 @@ import { Award, Clock, MapPin, Star } from "lucide-react";
 const PATIENT_IMG = "https://media.base44.com/images/public/6a3dce71c9e933d4c38e8c9c/596bc8279_generated_ca154f1b.png";
 
 const stats = [
-  { icon: Star, value: "12.450+", label: "Atendimentos Realizados" },
-  { icon: Award, value: "20+", label: "Especialidades Médicas" },
-  { icon: Clock, value: "10+", label: "Anos de Experiência" },
-  { icon: MapPin, value: "1", label: "Localização Central" },
+  { icon: Star, value: "50.000+", label: "Vidas Atendidas" },
+  { icon: Clock, value: "24h", label: "Para Resultados de Exames" },
+  { icon: Award, value: "4.9", label: "Nota no Google" },
+  { icon: MapPin, value: "20+", label: "Especialidades Médicas" },
 ];
 
 export default function TrustSection() {

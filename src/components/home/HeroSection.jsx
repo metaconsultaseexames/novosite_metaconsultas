@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar, FileText } from "lucide-react";
+import { ArrowRight, Calendar, FileText, Star } from "lucide-react";
 
 const HERO_IMG = "https://media.base44.com/images/public/6a3dce71c9e933d4c38e8c9c/e830f1cf3_generated_b91a36e9.png";
 const WHATSAPP_URL = "https://wa.me/5500000000000?text=Olá! Gostaria de agendar uma consulta.";
@@ -8,10 +8,10 @@ const WHATSAPP_URL = "https://wa.me/5500000000000?text=Olá! Gostaria de agendar
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#F9FBFF] via-white to-[#46BEE6]/5" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#46BEE6]/8 rounded-full blur-[120px] -translate-y-1/4 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#735AAA]/8 rounded-full blur-[100px] translate-y-1/4 -translate-x-1/4" />
+      {/* Background — clean white to match navbar */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-[#F9FBFF] to-white" />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#46BEE6]/6 rounded-full blur-[120px] -translate-y-1/4 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#735AAA]/6 rounded-full blur-[100px] translate-y-1/4 -translate-x-1/4" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-0">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -25,15 +25,16 @@ export default function HeroSection() {
               <span className="text-[#735AAA] text-sm font-medium">Clínica Popular de Confiança</span>
             </div>
 
-            <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl text-[#1E293B] leading-tight">
-              Saúde de qualidade{" "}
+            <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-[3.4rem] text-[#1E293B] leading-tight">
+              Saúde de excelência,{" "}
               <span className="bg-gradient-to-r from-[#46BEE6] to-[#735AAA] bg-clip-text text-transparent">
-                ao seu alcance
-              </span>
+                no seu tempo
+              </span>{" "}
+              e que cabe no seu bolso.
             </h1>
 
             <p className="mt-6 text-lg sm:text-xl text-[#1E293B]/60 leading-relaxed max-w-lg">
-              Consultas, exames e procedimentos com tecnologia de ponta, agilidade nos resultados e o acolhimento que você merece.
+              Agilidade de particular, preço de popular, cuidado de família. Atendimento médico moderno e humanizado para quem não pode esperar meses por uma consulta.
             </p>
 
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
@@ -44,17 +45,29 @@ export default function HeroSection() {
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#46BEE6] to-[#735AAA] text-white px-8 py-4 rounded-full text-base font-semibold hover:shadow-xl hover:shadow-[#735AAA]/25 transition-all duration-300 hover:-translate-y-0.5"
               >
                 <Calendar className="w-5 h-5" />
-                Agendar Agora
+                Agendar Consulta Agora
                 <ArrowRight className="w-4 h-4" />
               </a>
+            </div>
+
+            {/* Social proof below CTA */}
+            <div className="mt-6 flex items-center gap-2 text-sm text-[#1E293B]/50">
+              <div className="flex -space-x-1">
+                {[Star, Star, Star, Star, Star].map((Icon, i) => (
+                  <Icon key={i} className="w-4 h-4 text-[#46BEE6] fill-[#46BEE6]" />
+                ))}
+              </div>
+              <span>
+                <strong className="text-[#1E293B]">+50.000 atendimentos</strong> realizados com excelência
+              </span>
             </div>
 
             {/* Quick Stats */}
             <div className="mt-12 grid grid-cols-3 gap-6">
               {[
-                { value: "12k+", label: "Atendimentos" },
-                { value: "20+", label: "Especialidades" },
-                { value: "98%", label: "Satisfação" },
+                { value: "50mil+", label: "Vidas Atendidas" },
+                { value: "24h", label: "Resultados de Exames" },
+                { value: "4.9", label: "Nota no Google" },
               ].map((stat) => (
                 <div key={stat.label}>
                   <p className="font-heading font-bold text-2xl bg-gradient-to-r from-[#46BEE6] to-[#735AAA] bg-clip-text text-transparent">

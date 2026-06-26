@@ -1,18 +1,18 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Cpu, Users, Zap, ShieldCheck } from "lucide-react";
+import { Cpu, Users, Zap, CreditCard } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
 
 const differentials = [
   {
     icon: Cpu,
     title: "Tecnologia de Ponta",
-    description: "Equipamentos de última geração para diagnósticos precisos e tratamentos modernos.",
+    description: "Equipamentos de última geração para precisão diagnóstica e conforto do paciente.",
   },
   {
     icon: Users,
-    title: "Corpo Clínico Qualificado",
-    description: "Médicos especialistas com formação nas melhores instituições do país.",
+    title: "Corpo Clínico Especializado",
+    description: "Médicos com RQE ativo e experiência comprovada, nas melhores instituições.",
   },
   {
     icon: Zap,
@@ -20,9 +20,9 @@ const differentials = [
     description: "Resultados de exames em até 24 horas, com laudos digitais disponíveis online.",
   },
   {
-    icon: ShieldCheck,
-    title: "Confiança e Transparência",
-    description: "Preços acessíveis e comunicação clara em cada etapa do seu atendimento.",
+    icon: CreditCard,
+    title: "Facilidade de Pagamento",
+    description: "Parcelamos sua saúde em até 12x. Qualidade sem burocracia.",
   },
 ];
 
