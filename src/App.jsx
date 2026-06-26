@@ -6,7 +6,15 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
-// Add page imports here
+import Home from './pages/Home';
+import Especialidades from './pages/Especialidades';
+import EspecialidadeDetalhe from './pages/EspecialidadeDetalhe';
+import Exames from './pages/Exames';
+import QuemSomos from './pages/QuemSomos';
+import Blog from './pages/Blog';
+import BlogPostPage from './pages/BlogPost';
+import Faq from './pages/Faq';
+import SiteLayout from './components/layout/SiteLayout';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -34,7 +42,16 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      {/* Add your page Route elements here */}
+      <Route element={<SiteLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/especialidades" element={<Especialidades />} />
+        <Route path="/especialidade/:slug" element={<EspecialidadeDetalhe />} />
+        <Route path="/exames" element={<Exames />} />
+        <Route path="/quem-somos" element={<QuemSomos />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="/faq" element={<Faq />} />
+      </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
