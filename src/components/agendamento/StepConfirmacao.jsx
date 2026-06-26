@@ -26,6 +26,23 @@ export default function StepConfirmacao({ formData, onReset }) {
   const [error, setError] = useState(null);
   const [agendamentoId, setAgendamentoId] = useState(null);
 
+  const getFieldErrors = (result) => {
+    if (!result || typeof result !== "object") return null;
+    const errors = [];
+    const fieldsToCheck = ["local_id", "paciente_id", "procedimento_id", "profissional_id", "especialidade_id", "data", "horario", "valor", "plano", "plano_id"];
+    for (const field of fieldsToCheck) {
+      if (Array.isArray(result[field]) && result[field].length > 0) {
+        errors.push(...result[field]);
+      }
+    }
+    if (result.content?.errors && typeof result.content.errors === "object") {
+      for (const arr of Object.values(result.content.errors)) {
+        if (Array.isArray(arr)) errors.push(...arr);
+      }
+    }
+    return errors.length > 0 ? errors.join(" ") : null;
+  };
+
   const handleConfirm = async () => {
     setStatus("loading");
     setError(null);
@@ -34,20 +51,33 @@ export default function StepConfirmacao({ formData, onReset }) {
       setStatus("error");
       return;
     }
+    if (!formData.horario?.data || !formData.horario?.hora) {
+      setError("Data e horário não selecionados. Volte e escolha um horário disponível.");
+      setStatus("error");
+      return;
+    }
     try {
+      const isoDate = formData.horario.data;
+      const timeStr = formData.horario.hora.includes(":") ? formData.horario.hora : `${formData.horario.hora}:00`;
+      const horaFormatted = timeStr.includes(":") && timeStr.split(":").length === 2
+        ? `${timeStr}:00`
+        : timeStr;
       const payload = {
-        paciente_id: formData.paciente?.id,
+        local_id: formData.unidade_id ?? 0,
+        paciente_id: formData.paciente.id,
         procedimento_id: formData.procedimento_id,
         especialidade_id: formData.especialidade_id,
-        profissional_id: formData.profissional_id,
-        unidade_id: formData.unidade_id,
-        data: formData.horario?.data,
-        hora: formData.horario?.hora,
-        tipo: formData.procedimento_id ? "P" : "E",
+        profissional_id: formData.profissional_id || null,
+        data: isoDate,
+        horario: horaFormatted,
+        valor: formData.procedimento_valor || 0,
+        plano: false,
+        plano_id: null,
       };
       const result = await agendamentoApi.criarAgendamento(payload);
       if (result.success === false) {
-        throw new Error(result.message || result.error || "Não foi possível criar o agendamento.");
+        const fieldErrors = getFieldErrors(result);
+        throw new Error(fieldErrors || result.error || result.message || "Não foi possível criar o agendamento. Verifique os campos.");
       }
       setAgendamentoId(result.content?.id || result.id || result.data?.id);
       setStatus("success");

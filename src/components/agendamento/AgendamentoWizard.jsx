@@ -23,7 +23,7 @@ const STEPS = [
 const INITIAL_DATA = {
   unidade_id: null, unidade_nome: null,
   especialidade_id: null, especialidade_nome: null,
-  procedimento_id: null, procedimento_nome: null,
+  procedimento_id: null, procedimento_nome: null, procedimento_valor: null, procedimento_tempo: null,
   profissional_id: null, profissional_nome: null,
   horario: null,
   paciente: null,

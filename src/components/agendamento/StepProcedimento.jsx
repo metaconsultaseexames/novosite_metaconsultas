@@ -39,7 +39,7 @@ export default function StepProcedimento({ formData, updateFormData, onNext }) {
               key={getId(proc)}
               selected={formData.procedimento_id === getId(proc)}
               onClick={() => {
-                updateFormData({ procedimento_id: getId(proc), procedimento_nome: getDisplayName(proc) });
+                updateFormData({ procedimento_id: getId(proc), procedimento_nome: getDisplayName(proc), procedimento_valor: proc.valor || 0, procedimento_tempo: proc.tempo || "30" });
                 onNext();
               }}
               icon={ClipboardList}
