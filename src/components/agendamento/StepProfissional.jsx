@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { UserRound } from "lucide-react";
-import { agendamentoApi, getDisplayName } from "@/lib/agendamentoApi";
+import { agendamentoApi, getId, getDisplayName } from "@/lib/agendamentoApi";
 import OptionCard from "./OptionCard";
 import LoadingState from "./LoadingState";
 import ErrorState from "./ErrorState";
@@ -19,7 +19,13 @@ export default function StepProfissional({ formData, updateFormData, onNext }) {
   if (loading) return <LoadingState message="Carregando profissionais..." />;
   if (error) return <ErrorState message={error} />;
 
-  const semPreferencia = { id: null, nome_completo: "Sem preferência de profissional" };
+  const getConselhoInfo = (prof) => {
+    const conselho = prof.conselho || "CRM";
+    const numero = prof.documento_conselho || "";
+    const uf = prof.uf_conselho || "";
+    const parts = [conselho, numero, uf].filter(Boolean);
+    return parts.length > 0 ? parts.join(" ") : null;
+  };
 
   return (
     <div>
@@ -29,26 +35,26 @@ export default function StepProfissional({ formData, updateFormData, onNext }) {
       </div>
       <div className="grid gap-3 max-w-2xl mx-auto">
         <OptionCard
-          selected={formData.profissional_id === null && formData.profissional_nome === "Sem preferência de profissional"}
+          selected={formData.profissional_id === null}
           onClick={() => {
-            updateFormData({ profissional_id: null, profissional_nome: "Sem preferência de profissional" });
+            updateFormData({ profissional_id: null, profissional_nome: "Sem preferência" });
             onNext();
           }}
           icon={UserRound}
           title="Sem preferência"
-          subtitle="Disponibilizar horários de qualquer profissional"
+          subtitle="Ver horários de todos os profissionais"
         />
         {profissionais.map((prof) => (
           <OptionCard
-            key={prof.id}
-            selected={formData.profissional_id === prof.id}
+            key={getId(prof)}
+            selected={formData.profissional_id === getId(prof)}
             onClick={() => {
-              updateFormData({ profissional_id: prof.id, profissional_nome: getDisplayName(prof) });
+              updateFormData({ profissional_id: getId(prof), profissional_nome: getDisplayName(prof) });
               onNext();
             }}
             icon={UserRound}
-            title={getDisplayName(prof)}
-            subtitle={prof.especialidade_nome || prof.conselho_numero ? `${prof.conselho || "CRM"} ${prof.conselho_numero || ""}`.trim() : null}
+            title={`${prof.tratamento || ""} ${getDisplayName(prof)}`.trim()}
+            subtitle={getConselhoInfo(prof)}
           />
         ))}
       </div>

@@ -16,6 +16,9 @@ export const agendamentoApi = {
   criarAgendamento: (agendamento) => invoke({ action: "criarAgendamento", agendamento }),
 };
 
+export const getId = (item) =>
+  item.especialidade_id || item.profissional_id || item.procedimento_id || item.id;
+
 export const getDisplayName = (item) =>
   item.nome || item.empresa || item.descricao || item.especialidade ||
-  item.procedimento || item.nome_completo || item.profissional || `Item ${item.id}`;
+  item.procedimento || item.nome_completo || item.profissional || `Item ${getId(item)}`;

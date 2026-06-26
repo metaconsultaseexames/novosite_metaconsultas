@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Stethoscope } from "lucide-react";
-import { agendamentoApi, getDisplayName } from "@/lib/agendamentoApi";
+import { agendamentoApi, getId, getDisplayName } from "@/lib/agendamentoApi";
 import OptionCard from "./OptionCard";
 import LoadingState from "./LoadingState";
 import ErrorState from "./ErrorState";
@@ -12,7 +12,12 @@ export default function StepEspecialidade({ formData, updateFormData, onNext }) 
 
   useEffect(() => {
     agendamentoApi.getEspecialidades()
-      .then((data) => { setEspecialidades(data.content || []); setLoading(false); })
+      .then((data) => {
+        const all = data.content || [];
+        const filtered = all.filter((e) => e.exibir_agendamento_online === 1);
+        setEspecialidades(filtered.length > 0 ? filtered : all);
+        setLoading(false);
+      })
       .catch((e) => { setError(e.message || "Erro ao carregar especialidades"); setLoading(false); });
   }, []);
 
@@ -31,10 +36,10 @@ export default function StepEspecialidade({ formData, updateFormData, onNext }) 
         ) : (
           especialidades.map((esp) => (
             <OptionCard
-              key={esp.id}
-              selected={formData.especialidade_id === esp.id}
+              key={getId(esp)}
+              selected={formData.especialidade_id === getId(esp)}
               onClick={() => {
-                updateFormData({ especialidade_id: esp.id, especialidade_nome: getDisplayName(esp) });
+                updateFormData({ especialidade_id: getId(esp), especialidade_nome: getDisplayName(esp) });
                 onNext();
               }}
               icon={Stethoscope}

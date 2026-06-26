@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Calendar, Clock, ChevronRight } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import { agendamentoApi } from "@/lib/agendamentoApi";
 import LoadingState from "./LoadingState";
 import ErrorState from "./ErrorState";
@@ -8,6 +8,11 @@ const WEEKDAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
 const formatApiDate = (date) => {
+  const d = new Date(date);
+  return `${String(d.getDate()).padStart(2, "0")}-${String(d.getMonth() + 1).padStart(2, "0")}-${d.getFullYear()}`;
+};
+
+const formatStoreDate = (date) => {
   const d = new Date(date);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
@@ -25,32 +30,50 @@ const generateDateRange = (days = 21) => {
 };
 
 const parseSchedule = (content) => {
-  if (!content) return [];
-  if (Array.isArray(content)) {
-    return content.map((item) => ({
-      data: item.data || item.data_agenda || item.data_inicio,
-      horarios: Array.isArray(item.horarios) ? item.horarios : (item.horas ? (Array.isArray(item.horas) ? item.horas : [item.horas]) : []),
-    })).filter((s) => s.data);
+  const dateMap = {};
+  if (!content || typeof content !== "object") return [];
+
+  const profObj = content.profissional_id || content;
+  if (profObj && typeof profObj === "object") {
+    for (const profKey of Object.keys(profObj)) {
+      const profData = profObj[profKey];
+      const localObj = profData.local_id || profData;
+      if (localObj && typeof localObj === "object") {
+        for (const localKey of Object.keys(localObj)) {
+          const localData = localObj[localKey];
+          if (localData && typeof localData === "object") {
+            for (const dateKey of Object.keys(localData)) {
+              if (/^\d{4}-\d{2}-\d{2}$/.test(dateKey)) {
+                const times = localData[dateKey];
+                if (Array.isArray(times) && times.length > 0) {
+                  if (!dateMap[dateKey]) dateMap[dateKey] = new Set();
+                  times.forEach((t) => dateMap[dateKey].add(t));
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
-  if (typeof content === "object") {
-    return Object.entries(content).map(([data, horarios]) => ({
-      data,
-      horarios: Array.isArray(horarios) ? horarios : [horarios],
-    }));
-  }
-  return [];
+
+  return Object.keys(dateMap).map((data) => ({
+    data,
+    horarios: Array.from(dateMap[data]).sort(),
+  }));
 };
 
 export default function StepHorario({ formData, updateFormData, onNext }) {
   const [dates] = useState(generateDateRange(21));
-  const [selectedDate, setSelectedDate] = useState(formatApiDate(dates[0]));
+  const [selectedDate, setSelectedDate] = useState(formatStoreDate(dates[0]));
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true);
-    const params = {
+
+    const apiParams = {
       tipo: formData.procedimento_id ? "P" : "E",
       unidade_id: formData.unidade_id,
       especialidade_id: formData.especialidade_id,
@@ -59,7 +82,7 @@ export default function StepHorario({ formData, updateFormData, onNext }) {
       data_start: formatApiDate(dates[0]),
       data_end: formatApiDate(dates[dates.length - 1]),
     };
-    agendamentoApi.getDisponibilidade(params)
+    agendamentoApi.getDisponibilidade(apiParams)
       .then((data) => { setSchedule(parseSchedule(data.content)); setLoading(false); })
       .catch((e) => { setError(e.message || "Erro ao carregar horários"); setLoading(false); });
   }, []);
@@ -69,7 +92,7 @@ export default function StepHorario({ formData, updateFormData, onNext }) {
     return entry ? entry.horarios : [];
   };
 
-  const selectedDateObj = dates.find((d) => formatApiDate(d) === selectedDate) || dates[0];
+  const selectedDateObj = dates.find((d) => formatStoreDate(d) === selectedDate) || dates[0];
   const slots = getSlotsForDate(selectedDate);
 
   if (error) return <ErrorState message={error} />;
@@ -86,13 +109,14 @@ export default function StepHorario({ formData, updateFormData, onNext }) {
           {dates.map((d) => {
             const dateStr = formatApiDate(d);
             const hasSlots = getSlotsForDate(dateStr).length > 0;
+            const storeDateStr = formatStoreDate(d);
             return (
               <button
                 key={dateStr}
-                onClick={() => setSelectedDate(dateStr)}
+                onClick={() => setSelectedDate(storeDateStr)}
                 disabled={!hasSlots && !loading}
                 className={`flex-shrink-0 w-16 py-3 rounded-2xl border-2 transition-all duration-200 ${
-                  selectedDate === dateStr
+                  selectedDate === storeDateStr
                     ? "border-[#735AAA] bg-[#735AAA] text-white shadow-md shadow-[#735AAA]/20"
                     : hasSlots
                     ? "border-transparent bg-[#F9FBFF] text-[#1E293B] hover:border-[#46BEE6]/30"

@@ -1,23 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Building2 } from "lucide-react";
-import { agendamentoApi, getDisplayName } from "@/lib/agendamentoApi";
+import { agendamentoApi, getId, getDisplayName } from "@/lib/agendamentoApi";
 import OptionCard from "./OptionCard";
 import LoadingState from "./LoadingState";
-import ErrorState from "./ErrorState";
 
 export default function StepUnidade({ formData, updateFormData, onNext }) {
   const [unidades, setUnidades] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     agendamentoApi.getUnidades()
-      .then((data) => { setUnidades(data.content || []); setLoading(false); })
-      .catch((e) => { setError(e.message || "Erro ao carregar unidades"); setLoading(false); });
+      .then((data) => {
+        const content = data.success && Array.isArray(data.content) ? data.content : [];
+        setUnidades(content);
+        setLoading(false);
+      })
+      .catch(() => { setLoading(false); });
   }, []);
 
+  const selectDefault = () => {
+    updateFormData({ unidade_id: 0, unidade_nome: "Unidade principal" });
+    onNext();
+  };
+
   if (loading) return <LoadingState message="Carregando unidades..." />;
-  if (error) return <ErrorState message={error} />;
 
   return (
     <div>
@@ -27,14 +33,20 @@ export default function StepUnidade({ formData, updateFormData, onNext }) {
       </div>
       <div className="grid gap-3 max-w-2xl mx-auto">
         {unidades.length === 0 ? (
-          <p className="text-center text-[#1E293B]/60 py-8">Nenhuma unidade disponível.</p>
+          <OptionCard
+            selected={true}
+            onClick={selectDefault}
+            icon={Building2}
+            title="Unidade principal"
+            subtitle="Atendimento presencial"
+          />
         ) : (
           unidades.map((unidade) => (
             <OptionCard
-              key={unidade.id}
-              selected={formData.unidade_id === unidade.id}
+              key={getId(unidade)}
+              selected={formData.unidade_id === getId(unidade)}
               onClick={() => {
-                updateFormData({ unidade_id: unidade.id, unidade_nome: getDisplayName(unidade) });
+                updateFormData({ unidade_id: getId(unidade), unidade_nome: getDisplayName(unidade) });
                 onNext();
               }}
               icon={Building2}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ClipboardList } from "lucide-react";
-import { agendamentoApi, getDisplayName } from "@/lib/agendamentoApi";
+import { agendamentoApi, getId, getDisplayName } from "@/lib/agendamentoApi";
 import OptionCard from "./OptionCard";
 import LoadingState from "./LoadingState";
 import ErrorState from "./ErrorState";
@@ -12,7 +12,12 @@ export default function StepProcedimento({ formData, updateFormData, onNext }) {
 
   useEffect(() => {
     agendamentoApi.getProcedimentos(formData.especialidade_id)
-      .then((data) => { setProcedimentos(data.content || []); setLoading(false); })
+      .then((data) => {
+        const all = data.content || [];
+        const filtered = all.filter((p) => p.permite_agendamento_online === true);
+        setProcedimentos(filtered.length > 0 ? filtered : all);
+        setLoading(false);
+      })
       .catch((e) => { setError(e.message || "Erro ao carregar procedimentos"); setLoading(false); });
   }, []);
 
@@ -23,7 +28,7 @@ export default function StepProcedimento({ formData, updateFormData, onNext }) {
     <div>
       <div className="text-center mb-8">
         <h2 className="font-heading font-bold text-2xl text-[#1E293B]">Qual procedimento?</h2>
-        <p className="text-[#1E293B]/60 mt-2">Selecione o procedimento para a especialidade <strong>{formData.especialidade_nome}</strong></p>
+        <p className="text-[#1E293B]/60 mt-2">Especialidade: <strong>{formData.especialidade_nome}</strong></p>
       </div>
       <div className="grid gap-3 max-w-2xl mx-auto">
         {procedimentos.length === 0 ? (
@@ -31,10 +36,10 @@ export default function StepProcedimento({ formData, updateFormData, onNext }) {
         ) : (
           procedimentos.map((proc) => (
             <OptionCard
-              key={proc.id}
-              selected={formData.procedimento_id === proc.id}
+              key={getId(proc)}
+              selected={formData.procedimento_id === getId(proc)}
               onClick={() => {
-                updateFormData({ procedimento_id: proc.id, procedimento_nome: getDisplayName(proc) });
+                updateFormData({ procedimento_id: getId(proc), procedimento_nome: getDisplayName(proc) });
                 onNext();
               }}
               icon={ClipboardList}
