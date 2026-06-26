@@ -7,7 +7,7 @@ const WHATSAPP_URL = "https://wa.me/5500000000000?text=Olá! Gostaria de agendar
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[calc(100vh-6rem)] flex items-start overflow-hidden pt-12 pb-16">
       {/* Background — clean white to match navbar */}
       <div className="absolute inset-0 bg-gradient-to-b from-white via-[#F9FBFF] to-white" />
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#46BEE6]/6 rounded-full blur-[120px] -translate-y-1/4 translate-x-1/4" />
