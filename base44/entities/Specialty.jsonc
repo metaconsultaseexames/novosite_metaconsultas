@@ -56,6 +56,37 @@
     "order": {
       "type": "number",
       "description": "Ordem de exibi\u00e7\u00e3o"
+    },
+    "pain_points": {
+      "type": "string",
+      "description": "Dores do paciente para destaque"
+    },
+    "meta_differential": {
+      "type": "string",
+      "description": "Diferencial da Cl\u00ednica Meta"
+    },
+    "checkup_title": {
+      "type": "string",
+      "description": "T\u00edtulo do check-up preventivo"
+    },
+    "checkup_message": {
+      "type": "string",
+      "description": "Mensagem do check-up preventivo"
+    },
+    "gallery_images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Imagens para carrossel din\u00e2mico"
     }
   },
   "required": [

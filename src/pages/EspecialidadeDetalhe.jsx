@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
-import { ArrowLeft, CheckCircle, MessageCircle, User, Shield } from "lucide-react";
+import { ArrowLeft, CheckCircle, MessageCircle, User, Shield, AlertCircle, Sparkles, HeartPulse } from "lucide-react";
 import SpecialtyIcon from "@/components/shared/SpecialtyIcon";
+import SpecialtyImageCarousel from "@/components/specialties/SpecialtyImageCarousel";
 
 const WHATSAPP_BASE = "https://wa.me/5500000000000?text=";
 
@@ -45,6 +46,7 @@ export default function EspecialidadeDetalhe() {
   }
 
   const whatsappMsg = encodeURIComponent(`Olá! Gostaria de agendar uma consulta em ${specialty.name}.`);
+  const hasGallery = specialty.gallery_images && specialty.gallery_images.length > 0;
 
   return (
     <div className="min-h-screen pt-28 pb-24 bg-[#F9FBFF]">
@@ -78,6 +80,13 @@ export default function EspecialidadeDetalhe() {
           </div>
         </motion.div>
 
+        {/* Image Carousel */}
+        {hasGallery && (
+          <div className="mb-10">
+            <SpecialtyImageCarousel images={specialty.gallery_images} />
+          </div>
+        )}
+
         <div className="grid lg:grid-cols-3 gap-10">
           <div className="lg:col-span-2 space-y-10">
             {/* About */}
@@ -95,12 +104,61 @@ export default function EspecialidadeDetalhe() {
               </p>
             </motion.section>
 
+            {/* Pain Points */}
+            {specialty.pain_points && (
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="bg-gradient-to-br from-[#46BEE6]/5 to-[#735AAA]/5 rounded-2xl p-8 border border-[#46BEE6]/20"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-[#46BEE6]/15 flex items-center justify-center flex-shrink-0">
+                    <AlertCircle className="w-6 h-6 text-[#46BEE6]" />
+                  </div>
+                  <div>
+                    <h2 className="font-heading font-bold text-lg text-[#1E293B] mb-3">
+                      Você se identifica?
+                    </h2>
+                    <p className="text-[#1E293B]/70 leading-relaxed text-base">
+                      {specialty.pain_points}
+                    </p>
+                  </div>
+                </div>
+              </motion.section>
+            )}
+
+            {/* Meta Differential */}
+            {specialty.meta_differential && (
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="bg-gradient-to-br from-[#735AAA] to-[#46BEE6] rounded-2xl p-8 relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-[60px] translate-x-1/3 -translate-y-1/3" />
+                <div className="relative z-10 flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="font-heading font-bold text-lg text-white mb-3">
+                      Diferencial Clínica Meta
+                    </h2>
+                    <p className="text-white/90 leading-relaxed text-base">
+                      {specialty.meta_differential}
+                    </p>
+                  </div>
+                </div>
+              </motion.section>
+            )}
+
             {/* Symptoms */}
             {specialty.symptoms && specialty.symptoms.length > 0 && (
               <motion.section
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                transition={{ delay: 0.25 }}
                 className="bg-white rounded-2xl p-8 border border-gray-100"
               >
                 <h2 className="font-heading font-bold text-xl text-[#1E293B] mb-6">
@@ -113,6 +171,42 @@ export default function EspecialidadeDetalhe() {
                       <span className="text-[#1E293B]/80 text-sm">{symptom}</span>
                     </div>
                   ))}
+                </div>
+              </motion.section>
+            )}
+
+            {/* Check-up Preventivo */}
+            {specialty.checkup_title && (
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-gradient-to-br from-[#1E293B] to-[#0F172A] rounded-2xl p-8 relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-48 h-48 bg-[#46BEE6]/10 rounded-full blur-[80px] translate-x-1/3 -translate-y-1/3" />
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#46BEE6] to-[#735AAA] flex items-center justify-center">
+                      <HeartPulse className="w-6 h-6 text-white" />
+                    </div>
+                    <h2 className="font-heading font-bold text-xl text-white">
+                      {specialty.checkup_title}
+                    </h2>
+                  </div>
+                  {specialty.checkup_message && (
+                    <p className="text-gray-300 leading-relaxed text-base">
+                      {specialty.checkup_message}
+                    </p>
+                  )}
+                  <a
+                    href={`${WHATSAPP_BASE}${encodeURIComponent(`Olá! Gostaria de saber sobre o check-up de ${specialty.name}.`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 inline-flex items-center gap-2 bg-white text-[#1E293B] px-6 py-3 rounded-full font-semibold text-sm hover:shadow-lg transition-all duration-300"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    Agendar Check-up
+                  </a>
                 </div>
               </motion.section>
             )}
