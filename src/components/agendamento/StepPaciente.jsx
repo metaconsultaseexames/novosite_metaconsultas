@@ -19,6 +19,15 @@ const parseInfoSimplesDate = (dateStr) => {
   return dateStr;
 };
 
+const normalizeDate = (dateStr) => {
+  if (!dateStr) return "";
+  const ymd = dateStr.split("-");
+  if (ymd.length === 3) return ymd.join("");
+  const dmy = dateStr.split("/");
+  if (dmy.length === 3) return `${dmy[2]}${dmy[1]}${dmy[0]}`;
+  return onlyDigits(dateStr);
+};
+
 export default function StepPaciente({ formData, updateFormData, onNext }) {
   const [cpf, setCpf] = useState(formData.paciente?.cpf || "");
   const [birthdate, setBirthdate] = useState(formData.paciente?.data_nascimento || "");
@@ -41,6 +50,26 @@ export default function StepPaciente({ formData, updateFormData, onNext }) {
 
     setVerifying(true);
     try {
+      // 1. Primeiro busca o paciente no Feegow pelo CPF
+      const patientResult = await agendamentoApi.buscarPaciente(cleanCpf);
+      const existing = patientResult.content && patientResult.content[0];
+
+      if (existing) {
+        // Paciente encontrado no Feegow — valida a data de nascimento
+        const enteredNorm = normalizeDate(birthdate);
+        const feegowNorm = normalizeDate(existing.data_nascimento);
+        if (enteredNorm && feegowNorm && enteredNorm !== feegowNorm) {
+          setError("A data de nascimento informada não confere com o cadastro. Verifique e tente novamente.");
+          setVerifying(false);
+          return;
+        }
+        setFoundPatient(existing);
+        updateFormData({ paciente: existing });
+        setVerifying(false);
+        return;
+      }
+
+      // 2. CPF não existe no Feegow — valida via Receita Federal (InfoSimples)
       const birthdateParts = birthdate.split("-");
       const birthdateBR = birthdateParts.length === 3
         ? `${birthdateParts[2]}/${birthdateParts[1]}/${birthdateParts[0]}`
@@ -54,32 +83,24 @@ export default function StepPaciente({ formData, updateFormData, onNext }) {
       }
       const rfData = (cpfResult.data && cpfResult.data[0]) || {};
       setInfosimplesData(rfData);
-
-      const patientResult = await agendamentoApi.buscarPaciente(cleanCpf);
-      const existing = patientResult.content && patientResult.content[0];
-      if (existing) {
-        setFoundPatient(existing);
-        updateFormData({ paciente: existing });
-      } else {
-        setPatientForm({
-          nome_completo: rfData.nome || "",
-          cpf: cleanCpf,
-          data_nascimento: parseInfoSimplesDate(rfData.data_nascimento) || birthdate,
-          genero: rfData.genero === "MASCULINO" ? "M" : rfData.genero === "FEMININO" ? "F" : "",
-          nome_mae: rfData.nome_mae || "",
-          telefone: "",
-          celular: "",
-          email: "",
-          cep: "",
-          cidade: "",
-          estado: "",
-          endereco: "",
-          numero: "",
-          complemento: "",
-          bairro: "",
-        });
-        setFormMode("create");
-      }
+      setPatientForm({
+        nome_completo: rfData.nome || "",
+        cpf: cleanCpf,
+        data_nascimento: parseInfoSimplesDate(rfData.data_nascimento) || birthdate,
+        genero: rfData.genero === "MASCULINO" ? "M" : rfData.genero === "FEMININO" ? "F" : "",
+        nome_mae: rfData.nome_mae || "",
+        telefone: "",
+        celular: "",
+        email: "",
+        cep: "",
+        cidade: "",
+        estado: "",
+        endereco: "",
+        numero: "",
+        complemento: "",
+        bairro: "",
+      });
+      setFormMode("create");
     } catch (e) {
       setError(e.message || "Erro ao verificar CPF. Tente novamente.");
     }
@@ -146,7 +167,7 @@ export default function StepPaciente({ formData, updateFormData, onNext }) {
           className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#46BEE6] to-[#735AAA] text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#735AAA]/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {verifying ? <Loader2 className="w-5 h-5 animate-spin" /> : <Search className="w-5 h-5" />}
-          {verifying ? "Verificando..." : "Verificar CPF"}
+          {verifying ? "Verificando..." : "Verificar dados"}
         </button>
 
         {error && (
@@ -186,12 +207,38 @@ export default function StepPaciente({ formData, updateFormData, onNext }) {
 
         {foundPatient && (
           <div className="mt-6 p-5 rounded-2xl bg-green-50 border border-green-100">
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-3">
               <CheckCircle2 className="w-5 h-5 text-green-500" />
               <span className="font-semibold text-green-700">Paciente encontrado!</span>
             </div>
-            <p className="text-[#1E293B]">{foundPatient.nome_completo || foundPatient.nome}</p>
-            <p className="text-sm text-[#1E293B]/60 mt-1">CPF: {foundPatient.cpf}</p>
+            <div className="grid grid-cols-1 gap-1.5 text-sm">
+              <div className="flex justify-between">
+                <span className="text-[#1E293B]/50">Nome</span>
+                <span className="font-medium text-[#1E293B]">{foundPatient.nome_completo || foundPatient.nome}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[#1E293B]/50">CPF</span>
+                <span className="font-medium text-[#1E293B]">{foundPatient.cpf}</span>
+              </div>
+              {foundPatient.data_nascimento && (
+                <div className="flex justify-between">
+                  <span className="text-[#1E293B]/50">Nascimento</span>
+                  <span className="font-medium text-[#1E293B]">{foundPatient.data_nascimento}</span>
+                </div>
+              )}
+              {foundPatient.celular && (
+                <div className="flex justify-between">
+                  <span className="text-[#1E293B]/50">Celular</span>
+                  <span className="font-medium text-[#1E293B]">{foundPatient.celular}</span>
+                </div>
+              )}
+              {foundPatient.email && (
+                <div className="flex justify-between">
+                  <span className="text-[#1E293B]/50">E-mail</span>
+                  <span className="font-medium text-[#1E293B]">{foundPatient.email}</span>
+                </div>
+              )}
+            </div>
             <button
               onClick={onNext}
               className="mt-4 w-full bg-[#735AAA] text-white py-2.5 rounded-xl font-semibold hover:bg-[#5d478a] transition-colors"
