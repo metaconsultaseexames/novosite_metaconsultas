@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const LOGO_URL = "https://media.base44.com/images/public/user_6a0e76ab6e70dce6fecbba03/d63769dc4_Meta-Marca-Cor.jpg";
+const LOGO_URL = "https://media.base44.com/images/public/6a3dce71c9e933d4c38e8c9c/44383c69e_LogoMetacomfundotransparente.png";
 const WHATSAPP_URL = "https://wa.me/5500000000000?text=Olá! Gostaria de agendar uma consulta.";
 
 const navLinks = [

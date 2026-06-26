@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 
-const LOGO_URL = "https://media.base44.com/images/public/user_6a0e76ab6e70dce6fecbba03/d63769dc4_Meta-Marca-Cor.jpg";
+const LOGO_URL = "https://media.base44.com/images/public/6a3dce71c9e933d4c38e8c9c/44383c69e_LogoMetacomfundotransparente.png";
 const WHATSAPP_URL = "https://wa.me/5500000000000?text=Olá! Gostaria de agendar uma consulta.";
 
 export default function Footer() {
@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
-            <img src={LOGO_URL} alt="Clínica Meta" className="h-14 w-auto mb-6 brightness-0 invert" />
+            <img src={LOGO_URL} alt="Clínica Meta" className="h-14 w-auto mb-6" />
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               Saúde de qualidade ao seu alcance. Consultas, exames e procedimentos com tecnologia de ponta e acolhimento humanizado.
             </p>
