@@ -5,6 +5,7 @@ import SpecialtiesGrid from "@/components/home/SpecialtiesGrid";
 import DifferentialsSection from "@/components/home/DifferentialsSection";
 import TrustSection from "@/components/home/TrustSection";
 import CheckupBanner from "@/components/home/CheckupBanner";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
 import CtaSection from "@/components/home/CtaSection";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
       <DifferentialsSection />
       <TrustSection />
       <CheckupBanner />
+      <TestimonialsSection />
       <CtaSection />
     </>
   );
