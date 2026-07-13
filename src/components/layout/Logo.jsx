@@ -8,8 +8,8 @@ export default function Logo({ className = "", imgClassName = "h-[1248px]" }) {
       <img
         src={LOGO_URL}
         alt="Clínica Meta — Consultas e Exames"
-        className={`w-auto object-contain ${imgClassName}`}
-      />
-    </div>
-  );
+        className={`w-auto object-contain opacity-100 ${imgClassName}`} />
+      
+    </div>);
+
 }
