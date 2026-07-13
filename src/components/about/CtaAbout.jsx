@@ -6,13 +6,13 @@ const WHATSAPP_URL = "https://wa.me/5500000000000?text=Olá! Gostaria de agendar
 
 export default function CtaAbout() {
   return (
-    <section className="py-24 bg-[#F9FBFF]">
+    <section className="py-24 bg-gradient-to-br from-[#735AAA] to-[#46BEE6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#46BEE6] to-[#735AAA] px-8 py-16 sm:px-16 sm:py-20 text-center shadow-2xl shadow-[#735AAA]/20"
+          className="relative overflow-hidden rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 px-8 py-16 sm:px-16 sm:py-20 text-center"
         >
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZykiLz48L3N2Zz4=')] opacity-50" />
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl" />

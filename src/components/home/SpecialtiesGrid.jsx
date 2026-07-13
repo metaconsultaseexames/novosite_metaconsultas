@@ -19,11 +19,11 @@ export default function SpecialtiesGrid() {
 
   if (loading) {
     return (
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gradient-to-br from-[#735AAA] to-[#46BEE6]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="h-44 rounded-2xl bg-gray-100 animate-pulse" />
+              <div key={i} className="h-44 rounded-2xl bg-white/20 animate-pulse" />
             ))}
           </div>
         </div>
@@ -32,12 +32,13 @@ export default function SpecialtiesGrid() {
   }
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-gradient-to-br from-[#735AAA] to-[#46BEE6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Especialidades"
           title="Cuidados para toda a família"
           subtitle="Conte com uma equipe multidisciplinar para cuidar da sua saúde em todas as fases da vida."
+          light
         />
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
@@ -51,7 +52,7 @@ export default function SpecialtiesGrid() {
             >
               <Link
                 to={`/especialidade/${spec.slug}`}
-                className="group block p-6 rounded-2xl bg-[#F9FBFF] border border-transparent hover:border-[#46BEE6]/30 hover:shadow-lg hover:shadow-[#46BEE6]/10 transition-all duration-300 text-center"
+                className="group block p-6 rounded-2xl bg-white border border-transparent hover:border-[#46BEE6]/30 hover:shadow-lg hover:shadow-[#46BEE6]/10 transition-all duration-300 text-center"
               >
                 <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#46BEE6]/10 to-[#735AAA]/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <SpecialtyIcon name={spec.icon_name} className="w-7 h-7 text-[#735AAA]" />
@@ -67,7 +68,7 @@ export default function SpecialtiesGrid() {
         <div className="mt-10 text-center">
           <Link
             to="/especialidades"
-            className="inline-flex items-center gap-2 text-[#735AAA] font-semibold hover:gap-3 transition-all duration-300"
+            className="inline-flex items-center gap-2 text-white font-semibold hover:gap-3 transition-all duration-300"
           >
             Ver todas as especialidades
             <ArrowRight className="w-4 h-4" />

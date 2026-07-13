@@ -13,7 +13,7 @@ const stats = [
 
 export default function TrustSection() {
   return (
-    <section className="py-24 bg-[#F9FBFF]">
+    <section className="py-24 bg-gradient-to-br from-[#735AAA] to-[#46BEE6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
@@ -22,7 +22,7 @@ export default function TrustSection() {
             viewport={{ once: true }}
           >
             <div className="relative">
-              <div className="absolute -inset-3 bg-gradient-to-br from-[#46BEE6]/15 to-[#735AAA]/15 rounded-3xl blur-xl" />
+              <div className="absolute -inset-3 bg-white/10 rounded-3xl blur-xl" />
               <img
                 src={PATIENT_IMG}
                 alt="Paciente em ambiente acolhedor na Clínica Meta"
@@ -36,16 +36,16 @@ export default function TrustSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <span className="inline-block text-xs font-semibold tracking-widest uppercase text-[#46BEE6] mb-3">
+            <span className="inline-block text-xs font-semibold tracking-widest uppercase text-white/80 mb-3">
               Prova Social
             </span>
-            <h2 className="font-heading font-bold text-3xl sm:text-4xl text-[#1E293B] leading-tight mb-6">
+            <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white leading-tight mb-6">
               A confiança de milhares{" "}
-              <span className="bg-gradient-to-r from-[#46BEE6] to-[#735AAA] bg-clip-text text-transparent">
+              <span className="text-white">
                 de pacientes
               </span>
             </h2>
-            <p className="text-[#1E293B]/60 text-lg leading-relaxed mb-10">
+            <p className="text-white/70 text-lg leading-relaxed mb-10">
               A Clínica Meta é referência em saúde acessível e de qualidade. Com uma equipe multidisciplinar e infraestrutura moderna, cuidamos de você e da sua família com dedicação e profissionalismo.
             </p>
 

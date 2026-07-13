@@ -27,12 +27,13 @@ const gallery = [
 
 export default function InfrastructureSection() {
   return (
-    <section className="py-24 bg-[#F9FBFF]">
+    <section className="py-24 bg-gradient-to-br from-[#735AAA] to-[#46BEE6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Infraestrutura e Tecnologia"
           title="Ambientes que inspiram confiança"
           subtitle="Ambientes climatizados, modernos e equipados com o que há de mais recente na medicina diagnóstica."
+          light
         />
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">

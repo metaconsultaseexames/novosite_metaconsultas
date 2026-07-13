@@ -28,7 +28,7 @@ const pillars = [
 
 export default function PillarsSection() {
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-[#F9FBFF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Nossa História e Premissas"
@@ -44,7 +44,7 @@ export default function PillarsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="group relative bg-[#F9FBFF] rounded-2xl p-7 border border-transparent hover:border-[#46BEE6]/20 hover:shadow-xl hover:shadow-[#735AAA]/5 transition-all duration-300"
+              className="group relative bg-white rounded-2xl p-7 border border-gray-100 hover:border-[#46BEE6]/20 hover:shadow-xl hover:shadow-[#735AAA]/5 transition-all duration-300"
             >
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#46BEE6]/10 to-[#735AAA]/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
                 <p.icon className="w-7 h-7 text-[#735AAA]" />

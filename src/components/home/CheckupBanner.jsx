@@ -6,7 +6,7 @@ const CHECKUP_URL = "https://wa.me/5500000000000?text=Olá! Gostaria de saber so
 
 export default function CheckupBanner() {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-[#F9FBFF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

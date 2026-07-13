@@ -7,9 +7,9 @@ const WHATSAPP_URL = "https://wa.me/5500000000000?text=Olá! Gostaria de agendar
 
 export default function HeroAbout() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#F9FBFF] via-white to-[#F9FBFF] pt-12 pb-20">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#46BEE6]/5 rounded-full blur-[120px]" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#735AAA]/5 rounded-full blur-[100px]" />
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#735AAA] to-[#46BEE6] pt-28 pb-20">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[120px]" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/10 rounded-full blur-[100px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -18,19 +18,19 @@ export default function HeroAbout() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="inline-flex items-center gap-2 bg-[#735AAA]/10 px-4 py-2 rounded-full mb-6">
-              <div className="w-2 h-2 rounded-full bg-[#735AAA] animate-pulse" />
-              <span className="text-[#735AAA] text-sm font-medium">Quem Somos</span>
+            <div className="inline-flex items-center gap-2 bg-white/15 px-4 py-2 rounded-full mb-6">
+              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="text-white text-sm font-medium">Quem Somos</span>
             </div>
 
-            <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-[3.2rem] text-[#1E293B] leading-tight">
+            <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-[3.2rem] text-white leading-tight">
               Medicina de alta performance{" "}
-              <span className="bg-gradient-to-r from-[#46BEE6] to-[#735AAA] bg-clip-text text-transparent">
+              <span className="text-white">
                 para todos.
               </span>
             </h1>
 
-            <p className="mt-6 text-lg text-[#1E293B]/60 leading-relaxed max-w-xl">
+            <p className="mt-6 text-lg text-white/70 leading-relaxed max-w-xl">
               Nascemos para provar que você não precisa escolher entre preço justo e atendimento de elite. Na Clínica Meta, a tecnologia de ponta encontra o acolhimento que sua saúde merece.
             </p>
 
@@ -39,7 +39,7 @@ export default function HeroAbout() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#46BEE6] to-[#735AAA] text-white px-8 py-4 rounded-full text-base font-semibold hover:shadow-xl hover:shadow-[#735AAA]/25 transition-all duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#735AAA] px-8 py-4 rounded-full text-base font-semibold hover:shadow-xl hover:shadow-black/10 transition-all duration-300 hover:-translate-y-0.5"
               >
                 Agendar minha primeira consulta
                 <ArrowRight className="w-4 h-4" />
@@ -53,11 +53,11 @@ export default function HeroAbout() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="relative"
           >
-            <div className="absolute -inset-4 bg-gradient-to-br from-[#46BEE6]/20 to-[#735AAA]/20 rounded-3xl blur-2xl" />
+            <div className="absolute -inset-4 bg-white/20 rounded-3xl blur-2xl" />
             <img
               src={HERO_IMG}
               alt="Recepção moderna e humanizada da Clínica Meta"
-              className="relative rounded-3xl shadow-2xl shadow-[#735AAA]/10 w-full object-cover aspect-[4/3]"
+              className="relative rounded-3xl shadow-2xl shadow-black/20 w-full object-cover aspect-[4/3]"
             />
           </motion.div>
         </div>

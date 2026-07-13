@@ -70,15 +70,16 @@ export default function TestimonialsSection() {
   const active = testimonials[current];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white via-[#F9FBFF] to-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#46BEE6]/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#735AAA]/5 rounded-full blur-3xl" />
+    <section className="py-24 bg-gradient-to-br from-[#735AAA] to-[#46BEE6] relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Depoimentos"
           title="Histórias de quem confia na nossa equipe"
           subtitle="A satisfação dos nossos pacientes é o reflexo do cuidado e dedicação que colocamos em cada atendimento."
+          light
         />
 
         <div
@@ -86,7 +87,7 @@ export default function TestimonialsSection() {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <div className="relative bg-white rounded-3xl shadow-xl shadow-[#735AAA]/5 border border-gray-100 p-8 sm:p-12 overflow-hidden min-h-[340px]">
+          <div className="relative bg-white rounded-3xl shadow-xl shadow-black/10 border border-white/20 p-8 sm:p-12 overflow-hidden min-h-[340px]">
             <div className="absolute top-6 right-8 text-[#46BEE6]/10">
               <Quote className="w-24 h-24" />
             </div>
@@ -152,7 +153,7 @@ export default function TestimonialsSection() {
                 onClick={() => goTo(i)}
                 aria-label={`Ir para depoimento ${i + 1}`}
                 className={`h-2.5 rounded-full transition-all duration-300 ${
-                  i === current ? "w-8 bg-[#735AAA]" : "w-2.5 bg-[#735AAA]/20 hover:bg-[#735AAA]/40"
+                  i === current ? "w-8 bg-white" : "w-2.5 bg-white/30 hover:bg-white/50"
                 }`}
               />
             ))}

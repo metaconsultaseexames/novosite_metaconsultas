@@ -22,7 +22,7 @@ const differentials = [
 
 export default function SpecialtiesDifferentials() {
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-gradient-to-br from-[#735AAA] to-[#46BEE6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -31,10 +31,10 @@ export default function SpecialtiesDifferentials() {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-[#46BEE6] mb-3">
+          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-white/80 mb-3">
             Diferenciais
           </span>
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-[#1E293B]">
+          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white">
             Por que agendar conosco?
           </h2>
         </motion.div>
@@ -49,11 +49,11 @@ export default function SpecialtiesDifferentials() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="text-center"
             >
-              <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#46BEE6]/10 to-[#735AAA]/10 flex items-center justify-center mb-5">
-                <item.icon className="w-8 h-8 text-[#735AAA]" />
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-white/15 flex items-center justify-center mb-5">
+                <item.icon className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-heading font-bold text-lg text-[#1E293B] mb-2">{item.title}</h3>
-              <p className="text-[#1E293B]/60 leading-relaxed max-w-xs mx-auto">{item.description}</p>
+              <h3 className="font-heading font-bold text-lg text-white mb-2">{item.title}</h3>
+              <p className="text-white/70 leading-relaxed max-w-xs mx-auto">{item.description}</p>
             </motion.div>
           ))}
         </div>

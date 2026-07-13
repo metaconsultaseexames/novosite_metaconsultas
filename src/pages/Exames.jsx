@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { base44 } from "@/api/base44Client";
-import { ChevronDown, FileText, AlertCircle, MessageCircle, ScanLine, TestTubes, HeartPulse } from "lucide-react";
+import { ChevronDown, FileText, AlertCircle, MessageCircle, ScanLine, TestTubes, HeartPulse, Search } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
+import HighlightText from "@/components/shared/HighlightText";
 
 const iconMap = { ScanLine, TestTubes, HeartPulse };
 const WHATSAPP_URL = "https://wa.me/5500000000000?text=Olá! Gostaria de enviar um pedido médico para orçamento.";
@@ -11,6 +12,7 @@ export default function Exames() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openExam, setOpenExam] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     base44.entities.ExamCategory.list("order", 50)
@@ -18,6 +20,26 @@ export default function Exames() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
+
+  const normalize = (str) =>
+    String(str || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  const q = normalize(search);
+  const filteredCategories = q
+    ? categories
+        .map((cat) => ({
+          ...cat,
+          exams: (cat.exams || []).filter(
+            (exam) =>
+              normalize(exam.name).includes(q) ||
+              normalize(exam.preparation).includes(q)
+          ),
+        }))
+        .filter((cat) => cat.exams.length > 0)
+    : categories;
 
   return (
     <div className="min-h-screen pt-28 pb-24 bg-[#F9FBFF]">
@@ -43,15 +65,33 @@ export default function Exames() {
           </div>
         </motion.div>
 
+        {/* Search */}
+        <div className="max-w-lg mx-auto mb-12">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#1E293B]/30" />
+            <input
+              type="text"
+              placeholder="Buscar exame ou preparo..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-200 text-[#1E293B] placeholder:text-[#1E293B]/30 focus:border-[#46BEE6] focus:ring-2 focus:ring-[#46BEE6]/20 outline-none transition-all text-base"
+            />
+          </div>
+        </div>
+
         {loading ? (
           <div className="grid md:grid-cols-3 gap-8">
             {Array.from({ length: 3 }).map((_, i) => (
               <div key={i} className="h-96 rounded-2xl bg-white animate-pulse" />
             ))}
           </div>
+        ) : filteredCategories.length === 0 ? (
+          <div className="text-center py-16">
+            <p className="text-[#1E293B]/50 text-lg">Nenhum exame encontrado.</p>
+          </div>
         ) : (
           <div className="grid md:grid-cols-3 gap-8">
-            {categories.map((cat, ci) => {
+            {filteredCategories.map((cat, ci) => {
               const CatIcon = iconMap[cat.icon_name] || FileText;
               return (
                 <motion.div
@@ -65,20 +105,22 @@ export default function Exames() {
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#46BEE6]/10 to-[#735AAA]/10 flex items-center justify-center mb-4">
                       <CatIcon className="w-6 h-6 text-[#735AAA]" />
                     </div>
-                    <h3 className="font-heading font-bold text-lg text-[#1E293B]">{cat.name}</h3>
+                    <h3 className="font-heading font-bold text-lg text-[#1E293B]"><HighlightText text={cat.name} query={search} /></h3>
                     <p className="text-sm text-[#1E293B]/50 mt-1">{cat.description}</p>
                   </div>
 
                   <div className="divide-y divide-gray-50">
                     {(cat.exams || []).map((exam) => {
-                      const isOpen = openExam === `${cat.id}-${exam.name}`;
+                      const isOpen = q ? true : openExam === `${cat.id}-${exam.name}`;
                       return (
                         <div key={exam.name}>
                           <button
                             onClick={() => setOpenExam(isOpen ? null : `${cat.id}-${exam.name}`)}
                             className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-[#F9FBFF] transition-colors"
                           >
-                            <span className="text-sm text-[#1E293B]/80 font-medium">{exam.name}</span>
+                            <span className="text-sm text-[#1E293B]/80 font-medium">
+                              <HighlightText text={exam.name} query={search} />
+                            </span>
                             <ChevronDown
                               className={`w-4 h-4 text-[#1E293B]/30 transition-transform duration-200 ${
                                 isOpen ? "rotate-180" : ""

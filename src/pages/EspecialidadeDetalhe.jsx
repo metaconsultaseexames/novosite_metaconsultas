@@ -69,7 +69,7 @@ export default function EspecialidadeDetalhe() {
           <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-[80px] translate-x-1/3 -translate-y-1/3" />
           <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-6">
             <div className="w-20 h-20 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
-              <SpecialtyIcon name={specialty.icon_name} className="w-10 h-10 text-white" />
+              <SpecialtyIcon name={specialty.icon_name} slug={specialty.slug} className="w-10 h-10 text-white" />
             </div>
             <div>
               <h1 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-3">{specialty.name}</h1>

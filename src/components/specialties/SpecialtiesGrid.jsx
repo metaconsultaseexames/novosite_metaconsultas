@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { Search, ArrowRight } from "lucide-react";
 import SpecialtyIcon from "@/components/shared/SpecialtyIcon";
+import { smartSearch } from "@/lib/smartSearch";
+import HighlightText from "@/components/shared/HighlightText";
 
 export default function SpecialtiesGrid() {
   const [specialties, setSpecialties] = useState([]);
@@ -17,9 +19,13 @@ export default function SpecialtiesGrid() {
       .finally(() => setLoading(false));
   }, []);
 
-  const filtered = specialties.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = smartSearch(specialties, search, [
+    { key: "name", weight: 3 },
+    { key: "symptoms", weight: 2 },
+    { key: "short_description", weight: 1.5 },
+    { key: "pain_points", weight: 1 },
+    { key: "doctor_name", weight: 1 },
+  ]);
 
   return (
     <section className="py-16 sm:py-24 bg-[#F9FBFF]">
@@ -30,7 +36,7 @@ export default function SpecialtiesGrid() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#1E293B]/30" />
             <input
               type="text"
-              placeholder="Buscar especialidade..."
+              placeholder="Buscar por nome, sintoma ou especialidade..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-200 text-[#1E293B] placeholder:text-[#1E293B]/30 focus:border-[#46BEE6] focus:ring-2 focus:ring-[#46BEE6]/20 outline-none transition-all text-base"
@@ -58,17 +64,18 @@ export default function SpecialtiesGrid() {
                     to={`/especialidade/${spec.slug}`}
                     className="group block bg-white rounded-2xl p-8 border border-gray-100 hover:border-[#735AAA]/30 hover:shadow-xl hover:shadow-[#735AAA]/10 transition-all duration-300 text-center h-full"
                   >
-                    <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#46BEE6]/10 to-[#735AAA]/5 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-20 h-20 mx-auto flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                       <SpecialtyIcon
                         name={spec.icon_name}
-                        className="w-8 h-8 text-[#46BEE6] group-hover:text-[#735AAA] transition-colors duration-300"
+                        slug={spec.slug}
+                        className="w-16 h-16 object-contain drop-shadow-md"
                       />
                     </div>
                     <h3 className="font-heading font-bold text-base text-[#1E293B] group-hover:text-[#735AAA] transition-colors mb-2">
-                      {spec.name}
+                      <HighlightText text={spec.name} query={search} />
                     </h3>
                     <p className="text-sm text-[#1E293B]/50 leading-relaxed line-clamp-2">
-                      {spec.short_description}
+                      <HighlightText text={spec.short_description} query={search} />
                     </p>
                     <div className="mt-4 inline-flex items-center gap-1 text-[#735AAA] text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                       Saiba mais <ArrowRight className="w-3.5 h-3.5" />
