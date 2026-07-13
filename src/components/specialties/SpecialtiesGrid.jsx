@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
-import { Search, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import SpecialtyIcon from "@/components/shared/SpecialtyIcon";
 import { smartSearch } from "@/lib/smartSearch";
 import HighlightText from "@/components/shared/HighlightText";
 
-export default function SpecialtiesGrid() {
+export default function SpecialtiesGrid({ search = "" }) {
   const [specialties, setSpecialties] = useState([]);
-  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,21 +27,13 @@ export default function SpecialtiesGrid() {
   ]);
 
   return (
-    <section className="py-16 sm:py-24 bg-[#F9FBFF]">
+    <section className="py-12 sm:py-16 bg-[#F9FBFF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Search */}
-        <div className="max-w-lg mx-auto mb-14">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#1E293B]/30" />
-            <input
-              type="text"
-              placeholder="Buscar por nome, sintoma ou especialidade..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-200 text-[#1E293B] placeholder:text-[#1E293B]/30 focus:border-[#46BEE6] focus:ring-2 focus:ring-[#46BEE6]/20 outline-none transition-all text-base"
-            />
-          </div>
-        </div>
+        {search && (
+          <p className="text-center text-sm text-[#1E293B]/50 mb-8">
+            {filtered.length} {filtered.length === 1 ? "especialidade encontrada" : "especialidades encontradas"} para "{search}"
+          </p>
+        )}
 
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
