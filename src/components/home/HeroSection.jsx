@@ -18,8 +18,8 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
+            transition={{ duration: 0.8 }}>
+            
             <div className="inline-flex items-center gap-2 bg-[#735AAA]/10 px-4 py-2 rounded-full mb-8">
               <div className="w-2 h-2 rounded-full bg-[#735AAA] animate-pulse" />
               <span className="text-[#735AAA] text-sm font-medium">Clínica Popular de Confiança</span>
@@ -42,8 +42,8 @@ export default function HeroSection() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#46BEE6] to-[#735AAA] text-white px-8 py-4 rounded-full text-base font-semibold hover:shadow-xl hover:shadow-[#735AAA]/25 transition-all duration-300 hover:-translate-y-0.5"
-              >
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#46BEE6] to-[#735AAA] text-white px-8 py-4 rounded-full text-base font-semibold hover:shadow-xl hover:shadow-[#735AAA]/25 transition-all duration-300 hover:-translate-y-0.5">
+                
                 <Calendar className="w-5 h-5" />
                 Agendar Consulta Agora
                 <ArrowRight className="w-4 h-4" />
@@ -53,9 +53,9 @@ export default function HeroSection() {
             {/* Social proof below CTA */}
             <div className="mt-6 flex items-center gap-2 text-sm text-[#1E293B]/50">
               <div className="flex -space-x-1">
-                {[Star, Star, Star, Star, Star].map((Icon, i) => (
-                  <Icon key={i} className="w-4 h-4 text-[#46BEE6] fill-[#46BEE6]" />
-                ))}
+                {[Star, Star, Star, Star, Star].map((Icon, i) =>
+                <Icon key={i} className="w-4 h-4 text-[#46BEE6] fill-[#46BEE6]" />
+                )}
               </div>
               <span>
                 <strong className="text-[#1E293B]">+50.000 atendimentos</strong> realizados com excelência
@@ -65,17 +65,17 @@ export default function HeroSection() {
             {/* Quick Stats */}
             <div className="mt-12 grid grid-cols-3 gap-6">
               {[
-                { value: "50mil+", label: "Vidas Atendidas" },
-                { value: "24h", label: "Resultados de Exames" },
-                { value: "4.9", label: "Nota no Google" },
-              ].map((stat) => (
-                <div key={stat.label}>
+              { value: "50mil+", label: "Vidas Atendidas" },
+              { value: "24h", label: "Resultados de Exames" },
+              { value: "4.9", label: "Nota no Google" }].
+              map((stat) =>
+              <div key={stat.label}>
                   <p className="font-heading font-bold text-2xl bg-gradient-to-r from-[#46BEE6] to-[#735AAA] bg-clip-text text-transparent">
                     {stat.value}
                   </p>
                   <p className="text-sm text-[#1E293B]/50 mt-1">{stat.label}</p>
                 </div>
-              ))}
+              )}
             </div>
           </motion.div>
 
@@ -83,23 +83,23 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative hidden lg:block"
-          >
+            className="relative hidden lg:block">
+            
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-br from-[#46BEE6]/20 to-[#735AAA]/20 rounded-3xl blur-2xl" />
               <img
                 src={HERO_IMG}
                 alt="Visualização médica moderna representando precisão e tecnologia"
-                className="relative rounded-3xl shadow-2xl shadow-[#735AAA]/10 w-full object-cover"
-              />
+                className="relative rounded-3xl shadow-2xl shadow-[#735AAA]/10 w-full object-cover" />
+              
             </div>
 
             {/* Floating cards */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -left-8 top-1/4 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl shadow-black/5 border border-white"
-            >
+              className="absolute -left-8 top-1/4 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl shadow-black/5 border border-white hidden">
+              
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#46BEE6]/10 flex items-center justify-center">
                   <Calendar className="w-5 h-5 text-[#46BEE6]" />
@@ -114,8 +114,8 @@ export default function HeroSection() {
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -right-4 bottom-1/4 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl shadow-black/5 border border-white"
-            >
+              className="absolute -right-4 bottom-1/4 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl shadow-black/5 border border-white">
+              
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#735AAA]/10 flex items-center justify-center">
                   <FileText className="w-5 h-5 text-[#735AAA]" />
@@ -129,6 +129,6 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
