@@ -17,8 +17,8 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
+            transition={{ duration: 0.8 }}>
+            
             <div className="inline-flex items-center gap-2 bg-white/15 px-4 py-2 rounded-full mb-8">
               <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
               <span className="text-white text-sm font-medium">Clínica Popular de Confiança</span>
@@ -41,8 +41,8 @@ export default function HeroSection() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-white text-[#735AAA] px-8 py-4 rounded-full text-base font-semibold hover:shadow-xl hover:shadow-black/10 transition-all duration-300 hover:-translate-y-0.5"
-              >
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#735AAA] px-8 py-4 rounded-full text-base font-semibold hover:shadow-xl hover:shadow-black/10 transition-all duration-300 hover:-translate-y-0.5">
+                
                 <Calendar className="w-5 h-5" />
                 Agendar Consulta Agora
                 <ArrowRight className="w-4 h-4" />
@@ -51,9 +51,9 @@ export default function HeroSection() {
 
             <div className="mt-6 flex items-center gap-2 text-sm text-white/60">
               <div className="flex -space-x-1">
-                {[Star, Star, Star, Star, Star].map((Icon, i) => (
-                  <Icon key={i} className="w-4 h-4 text-white fill-white" />
-                ))}
+                {[Star, Star, Star, Star, Star].map((Icon, i) =>
+                <Icon key={i} className="w-4 h-4 text-white fill-white" />
+                )}
               </div>
               <span>
                 <strong className="text-white">+50.000 atendimentos</strong> realizados com excelência
@@ -62,17 +62,17 @@ export default function HeroSection() {
 
             <div className="mt-12 grid grid-cols-3 gap-6">
               {[
-                { value: "50mil+", label: "Vidas Atendidas" },
-                { value: "24h", label: "Resultados de Exames" },
-                { value: "4.9", label: "Nota no Google" },
-              ].map((stat) => (
-                <div key={stat.label}>
+              { value: "50mil+", label: "Vidas Atendidas" },
+              { value: "24h", label: "Resultados de Exames" },
+              { value: "4.9", label: "Nota no Google" }].
+              map((stat) =>
+              <div key={stat.label}>
                   <p className="font-heading font-bold text-2xl text-white">
                     {stat.value}
                   </p>
                   <p className="text-sm text-white/60 mt-1">{stat.label}</p>
                 </div>
-              ))}
+              )}
             </div>
           </motion.div>
 
@@ -80,22 +80,22 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative hidden lg:block"
-          >
+            className="relative hidden lg:block">
+            
             <div className="relative">
               <div className="absolute -inset-4 bg-white/20 rounded-3xl blur-2xl" />
               <img
                 src={HERO_IMG}
                 alt="Visualização médica moderna representando precisão e tecnologia"
-                className="relative rounded-3xl shadow-2xl shadow-black/20 w-full object-cover"
-              />
+                className="relative rounded-3xl shadow-2xl shadow-black/20 w-full object-cover" />
+              
             </div>
 
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -left-8 top-1/4 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl shadow-black/10 border border-white"
-            >
+              className="absolute -left-8 top-1/4 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl shadow-black/10 border border-white hidden">
+              
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#46BEE6]/10 flex items-center justify-center">
                   <Calendar className="w-5 h-5 text-[#46BEE6]" />
@@ -110,8 +110,8 @@ export default function HeroSection() {
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -right-4 bottom-1/4 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl shadow-black/10 border border-white"
-            >
+              className="absolute -right-4 bottom-1/4 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl shadow-black/10 border border-white">
+              
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#735AAA]/10 flex items-center justify-center">
                   <FileText className="w-5 h-5 text-[#735AAA]" />
@@ -125,6 +125,6 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
