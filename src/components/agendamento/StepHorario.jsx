@@ -83,7 +83,13 @@ export default function StepHorario({ formData, updateFormData, onNext }) {
       data_end: formatApiDate(dates[dates.length - 1]),
     };
     agendamentoApi.getDisponibilidade(apiParams)
-      .then((data) => { setSchedule(parseSchedule(data.content)); setLoading(false); })
+      .then((data) => {
+        const parsed = parseSchedule(data.content);
+        setSchedule(parsed);
+        const firstAvailable = parsed.find((s) => s.horarios.length > 0);
+        if (firstAvailable) setSelectedDate(firstAvailable.data);
+        setLoading(false);
+      })
       .catch((e) => { setError(e.message || "Erro ao carregar horários"); setLoading(false); });
   }, []);
 
@@ -107,9 +113,9 @@ export default function StepHorario({ formData, updateFormData, onNext }) {
       <div className="mb-6">
         <div className="flex gap-2 overflow-x-auto pb-3">
           {dates.map((d) => {
-            const dateStr = formatApiDate(d);
-            const hasSlots = getSlotsForDate(dateStr).length > 0;
             const storeDateStr = formatStoreDate(d);
+            const hasSlots = getSlotsForDate(storeDateStr).length > 0;
+            const dateStr = formatApiDate(d);
             return (
               <button
                 key={dateStr}
