@@ -3,6 +3,7 @@ import HeroAbout from "@/components/about/HeroAbout";
 import PillarsSection from "@/components/about/PillarsSection";
 import InfrastructureSection from "@/components/about/InfrastructureSection";
 import MedicalTeamSection from "@/components/about/MedicalTeamSection";
+import FacilitiesGallery from "@/components/about/FacilitiesGallery";
 import CtaAbout from "@/components/about/CtaAbout";
 
 export default function QuemSomos() {
@@ -12,6 +13,7 @@ export default function QuemSomos() {
       <PillarsSection />
       <InfrastructureSection />
       <MedicalTeamSection />
+      <FacilitiesGallery />
       <CtaAbout />
     </div>
   );
