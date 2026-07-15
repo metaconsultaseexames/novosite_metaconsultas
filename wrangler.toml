@@ -1,0 +1,21 @@
+name = "novosite-metaconsultas"
+type = "javascript"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+
+# Cloudflare Pages configuration
+pages_build_output_dir = "dist"
+
+# Environment variables for Base44
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+vars = { ENVIRONMENT = "staging" }
+
+# Optional: Add build triggers
+[build]
+command = "npm run build"
+cwd = "./"
